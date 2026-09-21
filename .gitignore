@@ -36,6 +36,10 @@ ENV/
 
 # Data files (large)
 data/synthetic_malware_data.csv
+data/ember_2018_v2/
+*.parquet
+data/*.parquet
+data/ember_*.csv
 
 # Model files (large pkl files - regenerate with train script)
 models/saved/*.pkl

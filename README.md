@@ -266,7 +266,15 @@ cd MLDS-Project-
 pip install -r requirements.txt
 ```
 
-### 3. Generate Dataset & Presets
+### 3. Dataset Setup (Kaggle EMBER 2018 v2 or Synthetic)
+
+**Option A — Download Real EMBER 2018 v2 Dataset from Kaggle**:
+```bash
+python data/download_ember.py
+```
+*Automatically downloads and caches the 2.23 GB Parquet dataset from [dhoogla/ember-2018-v2-features](https://www.kaggle.com/datasets/dhoogla/ember-2018-v2-features).*
+
+**Option B — Generate Synthetic Benchmark Dataset (50,000 samples)**:
 ```bash
 python data/generate_dataset.py
 ```
