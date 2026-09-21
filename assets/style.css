@@ -1,0 +1,358 @@
+/* PolyShield — Global Dark Cybersecurity Theme */
+/* ============================================== */
+
+/* ── Root Variables ────────────────────────────────── */
+:root {
+  --bg-primary: #0A0E1A;
+  --bg-card: #111827;
+  --bg-card-hover: #1A2332;
+  --accent-cyan: #00D4FF;
+  --accent-purple: #7C3AED;
+  --accent-cyan-dim: #00D4FF33;
+  --accent-purple-dim: #7C3AED33;
+  --color-benign: #10B981;
+  --color-malware: #EF4444;
+  --color-warning: #F59E0B;
+  --text-primary: #F9FAFB;
+  --text-secondary: #9CA3AF;
+  --border: #1F2937;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+/* ── Global Reset ──────────────────────────────────── */
+.stApp {
+  background: var(--bg-primary) !important;
+}
+
+/* Main area */
+section.main > div.block-container {
+  background: var(--bg-primary);
+  padding: 1.5rem 2rem !important;
+  max-width: 1400px;
+}
+
+/* ── Sidebar ───────────────────────────────────────── */
+[data-testid="stSidebar"] {
+  background: #080C18 !important;
+  border-right: 1px solid var(--border);
+}
+
+[data-testid="stSidebar"] .stRadio label {
+  color: var(--text-secondary) !important;
+  font-size: 0.875rem !important;
+  padding: 0.4rem 0.6rem !important;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  display: block;
+}
+
+[data-testid="stSidebar"] .stRadio label:hover {
+  color: var(--text-primary) !important;
+  background: var(--bg-card) !important;
+}
+
+/* ── Typography ────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-primary) !important;
+  font-family: 'Inter', sans-serif !important;
+}
+
+p, li, span, div {
+  color: var(--text-primary);
+  font-family: 'Inter', sans-serif !important;
+}
+
+/* ── Gradient Text Utility ─────────────────────────── */
+.gradient-text {
+  background: linear-gradient(135deg, #00D4FF, #7C3AED);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── KPI Metric Card ───────────────────────────────── */
+.metric-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.2rem 1.5rem;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  cursor: default;
+}
+
+.metric-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
+}
+
+.metric-card:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 20px var(--accent-cyan-dim);
+  transform: translateY(-2px);
+}
+
+.metric-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 0.5rem;
+}
+
+.metric-value {
+  font-size: 2rem;
+  font-weight: 800;
+  font-family: var(--font-mono) !important;
+  color: var(--text-primary);
+  line-height: 1.1;
+}
+
+.metric-delta {
+  font-size: 0.75rem;
+  margin-top: 0.3rem;
+}
+
+.metric-delta.positive { color: var(--color-benign); }
+.metric-delta.negative { color: var(--color-malware); }
+
+/* ── Hero Banner ───────────────────────────────────── */
+.hero-banner {
+  background: linear-gradient(135deg, #0A0E1A 0%, #111827 40%, #0D1B2E 100%);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 2.5rem 3rem;
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-banner::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -10%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, #00D4FF11 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-banner::before {
+  content: '';
+  position: absolute;
+  bottom: -40%;
+  left: -5%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, #7C3AED11 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* ── Threat Badge ──────────────────────────────────── */
+.threat-badge-malware {
+  background: #EF444420;
+  border: 1px solid #EF4444;
+  border-radius: 8px;
+  padding: 0.8rem 1.2rem;
+  color: #EF4444;
+  font-weight: 700;
+  font-size: 1.1rem;
+  text-align: center;
+  animation: pulse-red 2s infinite;
+}
+
+.threat-badge-benign {
+  background: #10B98120;
+  border: 1px solid #10B981;
+  border-radius: 8px;
+  padding: 0.8rem 1.2rem;
+  color: #10B981;
+  font-weight: 700;
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+@keyframes pulse-red {
+  0%, 100% { box-shadow: 0 0 10px #EF444433; }
+  50% { box-shadow: 0 0 25px #EF444466; }
+}
+
+/* ── Animated Divider ──────────────────────────────── */
+.gradient-divider {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #00D4FF, #7C3AED, transparent);
+  border: none;
+  margin: 1.5rem 0;
+  animation: shimmer 3s infinite;
+  background-size: 200% auto;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+/* ── Info Box ──────────────────────────────────────── */
+.info-box {
+  background: var(--bg-card);
+  border-left: 3px solid var(--accent-cyan);
+  border-radius: 0 8px 8px 0;
+  padding: 1rem 1.2rem;
+  margin: 1rem 0;
+}
+
+.warning-box {
+  background: var(--bg-card);
+  border-left: 3px solid var(--color-warning);
+  border-radius: 0 8px 8px 0;
+  padding: 1rem 1.2rem;
+  margin: 1rem 0;
+}
+
+/* ── Section Header ────────────────────────────────── */
+.section-header {
+  font-size: 1.4rem;
+  font-weight: 700;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 1.2rem;
+}
+
+/* ── Leaderboard ───────────────────────────────────── */
+.leaderboard-row {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.8rem 1.2rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.leaderboard-row:hover {
+  border-color: var(--accent-cyan);
+  background: var(--bg-card-hover);
+}
+
+/* ── Scan Result ───────────────────────────────────── */
+.scan-result-panel {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-top: 1rem;
+}
+
+/* ── Feature Constraint Card ───────────────────────── */
+.constraint-group {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem 1.2rem;
+  margin-bottom: 0.8rem;
+  transition: all 0.2s ease;
+}
+
+.constraint-group:hover {
+  border-color: var(--accent-purple);
+  box-shadow: 0 0 15px var(--accent-purple-dim);
+}
+
+/* ── Scanning Animation ────────────────────────────── */
+.scanner-container {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.scanner-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
+  animation: scan-down 2s linear infinite;
+}
+
+@keyframes scan-down {
+  0% { top: 0; }
+  100% { top: 100%; }
+}
+
+/* ── Streamlit Overrides ───────────────────────────── */
+.stButton > button {
+  background: linear-gradient(135deg, #00D4FF, #7C3AED) !important;
+  color: #000 !important;
+  font-weight: 700 !important;
+  border: none !important;
+  border-radius: 8px !important;
+  padding: 0.6rem 1.5rem !important;
+  font-size: 0.9rem !important;
+  transition: all 0.3s ease !important;
+  font-family: 'Inter', sans-serif !important;
+}
+
+.stButton > button:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 5px 20px #00D4FF44 !important;
+}
+
+.stSelectbox > div, .stMultiSelect > div {
+  background: var(--bg-card) !important;
+  border-color: var(--border) !important;
+  color: var(--text-primary) !important;
+}
+
+.stSlider > div { color: var(--text-primary) !important; }
+
+[data-testid="stMetricValue"] {
+  font-family: var(--font-mono) !important;
+  color: var(--accent-cyan) !important;
+}
+
+[data-testid="stMetricLabel"] {
+  color: var(--text-secondary) !important;
+}
+
+/* Tables */
+.dataframe {
+  background: var(--bg-card) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border) !important;
+}
+
+/* ── Tooltip ───────────────────────────────────────── */
+.tooltip-text {
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  font-style: italic;
+  margin-top: 0.3rem;
+}
+
+/* Expander */
+details > summary {
+  color: var(--accent-cyan) !important;
+  cursor: pointer;
+}
+
+/* Code blocks */
+.stCodeBlock {
+  background: #080C18 !important;
+  border: 1px solid var(--border) !important;
+}
