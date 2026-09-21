@@ -257,8 +257,8 @@ MLDS-Project/
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/aaryanbangale2306/MLDS-Project.git
-cd MLDS-Project
+git clone https://github.com/aaryanbangale2306/MLDS-Project-.git
+cd MLDS-Project-
 ```
 
 ### 2. Install Dependencies
@@ -300,7 +300,7 @@ streamlit run app.py
 
 - **Aaryan Bangale**  
   - GitHub: [@aaryanbangale2306](https://github.com/aaryanbangale2306)  
-  - Repository: [https://github.com/aaryanbangale2306/MLDS-Project](https://github.com/aaryanbangale2306/MLDS-Project)
+  - Repository: [https://github.com/aaryanbangale2306/MLDS-Project-](https://github.com/aaryanbangale2306/MLDS-Project-)
 
 ---
 
