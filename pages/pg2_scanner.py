@@ -65,17 +65,26 @@ def _predict(sample_dict, models, preprocessor):
 def _compute_shap(sample_dict, explainer):
     """Compute SHAP values for a single sample using the saved XGBoost explainer."""
     try:
-        X = np.array([[float(sample_dict.get(f, 0)) for f in ALL_FEATURES]])
-        shap_vals = explainer.shap_values(X)
-        if isinstance(shap_vals, list):
-            shap_vals = shap_vals[1]
-        sv = shap_vals[0]
-        order = np.argsort(np.abs(sv))[::-1][:12]
-        return {
-            "features": [ALL_FEATURES[i] for i in order],
-            "values": sv[order].tolist(),
-            "feature_vals": X[0][order].tolist(),
-        }
+        X = np.array([float(sample_dict.get(f, 0)) for f in ALL_FEATURES])
+        if hasattr(explainer, "get_waterfall_data"):
+            wdata = explainer.get_waterfall_data(X, max_display=12)
+            return {
+                "features": wdata["feature_names"],
+                "values": wdata["shap_values"],
+                "feature_vals": wdata["feature_values"],
+            }
+        elif hasattr(explainer, "explainer") and hasattr(explainer.explainer, "shap_values"):
+            shap_vals = explainer.explainer.shap_values(X.reshape(1, -1))
+            if isinstance(shap_vals, list):
+                shap_vals = shap_vals[1]
+            sv = shap_vals[0]
+            order = np.argsort(np.abs(sv))[::-1][:12]
+            return {
+                "features": [ALL_FEATURES[i] for i in order],
+                "values": sv[order].tolist(),
+                "feature_vals": X[order].tolist(),
+            }
+        return None
     except Exception:
         return None
 
