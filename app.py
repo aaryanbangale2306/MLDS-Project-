@@ -1,128 +1,149 @@
 """
-app.py — Main Streamlit Dashboard Entry Point
-XGBoost Classifier with Feature Interaction Constraints
-for Low-Signature Polymorphic Malware Detection
+PolyShield — Polymorphic Malware Detection System
+Main entry point. Uses Streamlit's native multi-page system.
 """
-
 import streamlit as st
-from pathlib import Path
 
-# ─── Page Config ──────────────────────────────────────────────────────────────
 st.set_page_config(
-    page_title="PolyShield — Polymorphic Malware Detection",
+    page_title="PolyShield",
     page_icon="🛡️",
     layout="wide",
     initial_sidebar_state="expanded",
-    menu_items={
-        "Get Help": "https://github.com/aaryanbangale2306/MLDS-Project",
-        "Report a bug": "https://github.com/aaryanbangale2306/MLDS-Project/issues",
-        "About": "XGBoost Malware Detection System v1.0",
-    },
 )
 
-# ─── Load Global CSS ──────────────────────────────────────────────────────────
-css_path = Path(__file__).parent / "assets" / "style.css"
-if css_path.exists():
-    with open(css_path) as f:
-        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+# Global styles — clean, professional, not over-designed
+st.markdown("""<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
-# ─── Import Fonts ─────────────────────────────────────────────────────────────
-st.markdown("""
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-<style>
-    html, body, [class*="css"] { font-family: 'Inter', sans-serif !important; }
-    code, pre, .metric-value { font-family: 'JetBrains Mono', monospace !important; }
-</style>
-""", unsafe_allow_html=True)
+html, body, [class*="css"] {
+  font-family: 'Inter', sans-serif;
+  color: #e5e7eb;
+}
+.stApp { background: #0f1117; }
 
-# ─── Sidebar ──────────────────────────────────────────────────────────────────
+/* Sidebar */
+[data-testid="stSidebar"] {
+  background: #161b27;
+  border-right: 1px solid #1f2937;
+}
+[data-testid="stSidebar"] .stRadio label {
+  font-size: 0.9rem;
+  padding: 0.35rem 0.5rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Main content area */
+section.main > div.block-container {
+  padding: 1.5rem 2rem;
+  max-width: 1200px;
+}
+
+/* Headings */
+h1 { font-size: 1.7rem; font-weight: 700; color: #f9fafb; margin-bottom: 0.25rem; }
+h2 { font-size: 1.2rem; font-weight: 600; color: #f3f4f6; }
+h3 { font-size: 1rem; font-weight: 600; color: #d1d5db; }
+
+/* Buttons */
+.stButton > button {
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  padding: 0.45rem 1.2rem;
+  font-size: 0.875rem;
+  transition: background 0.2s;
+}
+.stButton > button:hover { background: #1d4ed8; }
+
+/* Cards */
+.card {
+  background: #1e2433;
+  border: 1px solid #2d3748;
+  border-radius: 8px;
+  padding: 1.1rem 1.3rem;
+}
+.stat-card {
+  background: #1e2433;
+  border: 1px solid #2d3748;
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+  text-align: center;
+}
+.stat-val { font-size: 1.8rem; font-weight: 700; color: #60a5fa; font-family: 'JetBrains Mono'; }
+.stat-lbl { font-size: 0.78rem; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 0.2rem; }
+
+/* Divider */
+.divider { border: none; border-top: 1px solid #2d3748; margin: 1.2rem 0; }
+
+/* Status pills */
+.pill-green { background: #052e16; color: #4ade80; border: 1px solid #16a34a; border-radius: 4px; padding: 0.15rem 0.6rem; font-size: 0.78rem; font-weight: 500; }
+.pill-red   { background: #3b0a0a; color: #f87171; border: 1px solid #dc2626; border-radius: 4px; padding: 0.15rem 0.6rem; font-size: 0.78rem; font-weight: 500; }
+.pill-blue  { background: #1e3a5f; color: #93c5fd; border: 1px solid #3b82f6; border-radius: 4px; padding: 0.15rem 0.6rem; font-size: 0.78rem; font-weight: 500; }
+.pill-yellow{ background: #2d1f00; color: #fbbf24; border: 1px solid #d97706; border-radius: 4px; padding: 0.15rem 0.6rem; font-size: 0.78rem; font-weight: 500; }
+
+/* Tables */
+[data-testid="stDataFrame"] { border: 1px solid #2d3748; border-radius: 8px; }
+
+/* Selectbox, slider */
+[data-baseweb="select"] { background: #1e2433; }
+.stSelectbox label { font-size: 0.85rem; color: #9ca3af; }
+.stSlider label { font-size: 0.85rem; color: #9ca3af; }
+.stCheckbox label { font-size: 0.85rem; color: #d1d5db; }
+.stNumberInput label { font-size: 0.85rem; color: #9ca3af; }
+
+/* Alerts */
+[data-testid="stAlert"] { border-radius: 6px; }
+
+/* Code */
+code { background: #1e2433; color: #a5f3fc; padding: 0.1rem 0.3rem; border-radius: 3px; font-size: 0.82rem; }
+
+/* Hide the auto-generated Streamlit MPA page list */
+[data-testid="stSidebarNav"] { display: none !important; }
+</style>""", unsafe_allow_html=True)
+
+# Sidebar navigation
 with st.sidebar:
-    # Logo / Title
     st.markdown("""
-    <div style="text-align:center; padding: 1rem 0 1.5rem 0;">
-        <div style="font-size: 2.5rem; margin-bottom: 0.3rem;">🛡️</div>
-        <div style="background: linear-gradient(135deg, #00D4FF, #7C3AED);
-                    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-                    font-size: 1.4rem; font-weight: 800; letter-spacing: -0.5px;">
-            PolyShield
-        </div>
-        <div style="color: #9CA3AF; font-size: 0.75rem; margin-top: 0.2rem;">
-            Polymorphic Malware Detection v1.0
-        </div>
+    <div style="padding: 0.5rem 0 1.2rem 0;">
+      <div style="font-size:1.4rem; font-weight:700; color:#f9fafb;">🛡️ PolyShield</div>
+      <div style="font-size:0.75rem; color:#6b7280; margin-top:0.2rem;">Malware Detection System</div>
     </div>
-    <hr style="border: 1px solid #1F2937; margin: 0 0 1rem 0;">
     """, unsafe_allow_html=True)
 
-    # Navigation
-    st.markdown('<p style="color:#9CA3AF; font-size:0.75rem; font-weight:600; letter-spacing:1px; text-transform:uppercase; margin-bottom:0.5rem;">Navigation</p>', unsafe_allow_html=True)
-
-    pages = {
-        "🏠 Overview": "pages/01_overview.py",
-        "📊 Model Comparison": "pages/02_model_comparison.py",
-        "🔬 XGBoost Deep Dive": "pages/03_xgboost_deep_dive.py",
-        "🧪 Live Scanner": "pages/04_live_scanner.py",
-        "📈 Dataset & EDA": "pages/05_eda.py",
-        "🏗️ Feature Interactions": "pages/06_feature_interactions.py",
-        "ℹ️ About": "pages/07_about.py",
-    }
-
-    selected_page = st.radio(
-        "Navigate",
-        options=list(pages.keys()),
+    page = st.radio(
+        "Navigation",
+        ["Overview", "Scanner", "Analytics", "Models & Method"],
         label_visibility="collapsed",
     )
 
-    st.markdown("<hr style='border: 1px solid #1F2937; margin: 1rem 0;'>", unsafe_allow_html=True)
+    st.markdown("<hr style='border-color:#2d3748; margin:1rem 0'>", unsafe_allow_html=True)
 
-    # Status indicator
+    # Model status indicator
     from pathlib import Path
-    models_dir = Path(__file__).parent / "models" / "saved"
-    models_exist = (models_dir / "xgboost_model.pkl").exists()
-
-    if models_exist:
-        st.markdown("""
-        <div style="background:#10B98120; border:1px solid #10B981; border-radius:8px; padding:0.6rem 0.8rem;">
-            <span style="color:#10B981; font-size:0.8rem;">● Models Ready</span>
-        </div>
-        """, unsafe_allow_html=True)
+    trained = (Path(__file__).parent / "models" / "saved" / "xgboost_model.pkl").exists()
+    if trained:
+        st.markdown('<span class="pill-green">● Models ready</span>', unsafe_allow_html=True)
     else:
-        st.markdown("""
-        <div style="background:#EF444420; border:1px solid #EF4444; border-radius:8px; padding:0.6rem 0.8rem;">
-            <span style="color:#EF4444; font-size:0.8rem;">⚠ Models Not Trained</span>
-        </div>
-        """, unsafe_allow_html=True)
-        st.markdown("""
-        <div style="color:#9CA3AF; font-size:0.75rem; margin-top:0.5rem;">
-        Run <code>python models/train_all_models.py</code> to train models.
-        </div>
-        """, unsafe_allow_html=True)
+        st.markdown('<span class="pill-red">⚠ Models not trained</span>', unsafe_allow_html=True)
 
-    st.markdown("<hr style='border: 1px solid #1F2937; margin: 1rem 0;'>", unsafe_allow_html=True)
     st.markdown("""
-    <div style="color:#9CA3AF; font-size:0.7rem; text-align:center;">
-        Built with XGBoost + SHAP<br>
-        <a href="https://github.com/aaryanbangale2306/MLDS-Project"
-           style="color:#00D4FF; text-decoration:none;">GitHub ↗</a>
+    <div style="margin-top:auto; padding-top:2rem; font-size:0.72rem; color:#4b5563;">
+      XGBoost · LightGBM · CatBoost<br>Random Forest · Hybrid (IF+GB)
     </div>
     """, unsafe_allow_html=True)
 
-# ─── Route to Selected Page ───────────────────────────────────────────────────
-page_map = {
-    "🏠 Overview": "pages.page_01_overview",
-    "📊 Model Comparison": "pages.page_02_model_comparison",
-    "🔬 XGBoost Deep Dive": "pages.page_03_xgboost_deep_dive",
-    "🧪 Live Scanner": "pages.page_04_live_scanner",
-    "📈 Dataset & EDA": "pages.page_05_eda",
-    "🏗️ Feature Interactions": "pages.page_06_feature_interactions",
-    "ℹ️ About": "pages.page_07_about",
-}
-
-import importlib
-try:
-    page_module = importlib.import_module(page_map[selected_page])
-    page_module.render()
-except ModuleNotFoundError as e:
-    st.error(f"Page module not found: {e}")
-except Exception as e:
-    st.error(f"Error loading page: {e}")
-    st.exception(e)
+# Route to the selected page
+if page == "Overview":
+    import pages.pg1_overview as pg
+    pg.render()
+elif page == "Scanner":
+    import pages.pg2_scanner as pg
+    pg.render()
+elif page == "Analytics":
+    import pages.pg3_analytics as pg
+    pg.render()
+elif page == "Models & Method":
+    import pages.pg4_models as pg
+    pg.render()
