@@ -77,3 +77,6 @@ dmypy.json
 
 # Optuna study artifacts
 optuna_study.db
+
+# Archives
+*.zip
