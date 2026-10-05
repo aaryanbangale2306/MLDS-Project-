@@ -97,10 +97,10 @@ graph TD
            ▼                                ▼                                ▼
 ┌─────────────────────┐          ┌─────────────────────┐          ┌─────────────────────┐
 │  Multi-Model Bench  │          │  TreeSHAP Engine    │          │  Streamlit App      │
-│  - Random Forest    │          │  - Beeswarm Summary │          │  - 7 Live Pages     │
-│  - LightGBM (GBDT)  │          │  - Decision Waterfalls│        │  - File Scanner     │
+│  - Random Forest    │          │  - Global Importances│         │  - 4 Live Pages     │
+│  - LightGBM (GBDT)  │          │  - Decision Waterfalls│        │  - Dynamic Scanner  │
 │  - CatBoost         │          │  - Dependence Plots │          │  - Interactive EDA  │
-│  - Hybrid (IF + GB) │          │  - Feature Importances│        │  - SHAP Visualizer  │
+│  - Hybrid (IF + GB) │          │  - Per-sample SHAP  │          │  - Model Analytics  │
 └─────────────────────┘          └─────────────────────┘          └─────────────────────┘
 ```
 
@@ -229,14 +229,10 @@ MLDS-Project/
 │       ├── optuna_history.pkl
 │       └── training_config.json
 ├── pages/                         # Streamlit dashboard pages
-│   ├── __init__.py                # Shared cached loaders & UI components
-│   ├── page_01_overview.py
-│   ├── page_02_model_comparison.py
-│   ├── page_03_xgboost_deep_dive.py
-│   ├── page_04_live_scanner.py
-│   ├── page_05_eda.py
-│   ├── page_06_feature_interactions.py
-│   └── page_07_about.py
+│   ├── pg1_overview.py            # Overview: KPI cards, benchmark metrics, architecture
+│   ├── pg2_scanner.py             # Threat Scanner: dynamic random 33-feature generator, consensus & SHAP
+│   ├── pg3_analytics.py           # Analytics: class distribution pie, ROC-AUC bar, feature correlations & ablation
+│   └── pg4_models.py              # Models & Method: detailed model cards, hyperparams & methodology
 ├── utils/                         # Modular ML engineering helpers
 │   ├── preprocessing.py           # Preprocessor & Interaction Constraint definitions
 │   ├── evaluation.py              # Performance metrics (AUC, PR, F1, MCC, FPR@99TPR)
